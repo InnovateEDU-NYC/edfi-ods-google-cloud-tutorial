@@ -1,0 +1,115 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Installing the Ed-Fi dev environment in Google Cloud</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id=""
+                  title="Installing the Ed-Fi dev environment in Google Cloud"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <table>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 91.50px" src="img/cd204d1b38a1198a.png"><img style="width: 106.50px" src="img/4d2e1a1141777b44.png"></p>
+</td></tr>
+</table>
+<p>The Ed-Fi Alliance publishes the Ed-Fi data standard, a defined set of rules that allows educational data systems to connect, and technology that enables real world use of the data standard. This primarily happens through an operational data store (ODS) and accompanying API.</p>
+<p>You can read more about Ed-Fi here: <a href="https://www.ed-fi.org/" target="_blank">https://www.ed-fi.org/</a></p>
+<p>This tutorial will walk you through how to create a Ed-Fi sandbox environment in Google Cloud including the ODS and the API.</p>
+<aside class="warning"><p>Before you can move forward in this tutorial, you will need to request access to our Ed-Fi sandbox image in Google Cloud. Please complete the Google Form below.</p>
+<p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdILnko_UZ-iuLNymH7dqnMi7MEiVkRSKQ2Br1RMfyGL-yIjA/viewform" target="_blank">https://docs.google.com/forms/d/e/1FAIpQLSdILnko_UZ-iuLNymH7dqnMi7MEiVkRSKQ2Br1RMfyGL-yIjA/viewform</a></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Compute Engine VM" duration="0">
+        <p>We&#39;ve given you access to our Ed-Fi sandbox image and you&#39;re ready to build the virtual machine in your Google Cloud. Let&#39;s get started! Log into your Google Cloud and navigate to Compute Engine, or click below:</p>
+<p><a href="https://console.cloud.google.com/compute/instances" target="_blank">https://console.cloud.google.com/compute/instances</a></p>
+<h3 is-upgraded>Activate Cloud Shell</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 125.50px" src="img/2075e2f3309ec8f5.png"></p>
+</td></tr>
+</table>
+<p>Look for the Cloud Shell icon shown above in your Google Cloud and click it to activate a Cloud Shell connection. Paste in the command below to create the virtual machine.</p>
+<pre><code>gcloud compute instances create sandbox --image edfi-dev-311 --image-project public-resources-240800 --zone us-central1-c</code></pre>
+<p>It should take ~5 minutes for Google to create your new Compute Engine VM. You&#39;ll be able to see that the process has started by clicking on the <img style="width: 68.00px" src="img/46edb2358ee6182f.png"> button. When you see a green check mark next to your new VM, head to the next step in this tutorial.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Logging in" duration="0">
+        <p>The first thing we want to do now that you have your Compute Engine VM is to reset the password for Windows. Click on the arrow next to <strong>RDP</strong> and select <strong>Set Windows password</strong>.</p>
+<p class="image-container"><img style="width: 624.00px" src="img/3eecec60c3239c6e.png"></p>
+<p>When prompted, enter <code>edfi</code> as your username and click <strong>Set.</strong> Google will generate a new password for you, please store it somewhere safe.</p>
+<h3 is-upgraded>Chrome RDP</h3>
+<p>Install the <a href="https://chrome.google.com/webstore/detail/chrome-rdp-for-google-clo/mpbbnannobiobpnfblimoapbephgifkm/" target="_blank">Chrome RDP for Google Cloud Platform extension</a>.</p>
+<p>Once installed, head back to your VM instances page in Google Cloud and click on <strong>RDP</strong>. A window should open asking you for your recently set username and password.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Explore the ODS" duration="0">
+        <p>Click on the Start Menu and launch Microsoft SQL Server Management under the Microsoft SQL Server Tools 17 folder. You&#39;ll see a few databases setup and ready to go. The database <code>EdFi_Ods_Sandbox_GapYwJToOmLFuxj20cgyf</code> is seeded with fake school data so you can get a good idea of what an Ed-Fi database looks like.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 261.50px" src="img/4f023d9406a5a191.png"></p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Sandbox Administration" duration="0">
+        <p>Head to the Start Menu and launch Visual Studio 2015. Click on File, Recent Projects and Solutions, and launch the recently opened solutions file. Once loaded, click <strong>Start </strong>on the toolbar.</p>
+<p>It may take a few minutes for Visual Studio to launch the project. Once launched, open Google Chrome and head to http://localhost:38928/. After a few minutes, you&#39;ll see the Sandbox Administration portal. Click <strong>Login</strong> and login with:</p>
+<p>Username: <a href="mailto:test@ed-fi.org" target="_blank">test@ed-fi.org</a></p>
+<p>Password: YFtou0HS7WfIO8pwDqvGQ</p>
+<p>You can read more about the Sandbox Administration Portal on the site below:</p>
+<p><a href="https://techdocs.ed-fi.org/display/ODSAPI31/Using+the+Sandbox+Administration+Portal" target="_blank">https://techdocs.ed-fi.org/display/ODSAPI31/Using+the+Sandbox+Administration+Portal</a></p>
+<aside class="warning"><p>You will want to change the password to you Sandbox Administration Portal. This can be done by stopping the Visual Studio project and editing the file AdminCredential in C:\Ed-Fi-ODS-Implementation\Application\EdFi.Ods.Admin.Web</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Conclusion" duration="0">
+        <p>That&#39;s it! You&#39;ve successfully deployed a development environment of Ed-Fi v3.1.1! We encourage you to explore the database schema, explore the API endpoints via <a href="https://api.ed-fi.org/" target="_blank">https://api.ed-fi.org/</a>, and create a few client scripts of your own to interact with your newly deployed API. We are even linking a sample Python <a href="https://bitbucket.org/snippets/landingzone/Be4Edn" target="_blank">script</a> to help you get started.</p>
+<p>Check out a few projects by InnovateEDU:</p>
+<p>Project Unicorn: <a href="https://www.projunicorn.org/" target="_blank">https://www.projunicorn.org/</a></p>
+<p>DataViz Starter Pack: <a href="https://www.datavizstarterpack.com/" target="_blank">https://www.datavizstarterpack.com/</a></p>
+<h3 is-upgraded>Resources</h3>
+<p><a href="https://bitbucket.org/snippets/landingzone/Be4Edn" target="_blank">Sample Python Script</a></p>
+<p><a href="https://techdocs.ed-fi.org/display/ODSAPI31/API+Client+Developers%27+Guide" target="_blank">API Client Developer&#39;s Guide</a></p>
+<p><a href="https://techdocs.ed-fi.org/display/ODSAPI31/Production+Deployment" target="_blank">Production Deployment</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
