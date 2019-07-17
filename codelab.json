@@ -3,16 +3,16 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2019-05-16T01:51:01Z",
+  "updated": "2019-07-17T12:52:53Z",
   "id": "",
   "duration": 0,
-  "title": "Installing the Ed-Fi dev environment in Google Cloud",
+  "title": "Deploying an Ed-Fi development environment in Google Cloud Platform",
   "authors": "Marcos Alcozer, InnovateEDU",
   "summary": "",
-  "source": "https://docs.google.com/document/d/1z2T9bkO3G-WR1yap7tpSEHdnK-aPjmLye4NW1h7ua9o/edit?usp=sharing",
+  "source": "1z2T9bkO3G-WR1yap7tpSEHdnK-aPjmLye4NW1h7ua9o",
   "theme": "",
   "status": [
-    "draft"
+    "final"
   ],
   "category": [],
   "tags": [],

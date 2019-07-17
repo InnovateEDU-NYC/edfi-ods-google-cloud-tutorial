@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Installing the Ed-Fi dev environment in Google Cloud</title>
+  <title>Deploying an Ed-Fi development environment in Google Cloud Platform</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
@@ -23,27 +23,38 @@
   <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id=""
-                  title="Installing the Ed-Fi dev environment in Google Cloud"
+                  title="Deploying an Ed-Fi development environment in Google Cloud Platform"
                   environment="web"
                   feedback-link="">
     
-      <google-codelab-step label="Introduction" duration="0">
+      <google-codelab-step label="Overview" duration="0">
         <table>
-<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 91.50px" src="img/cd204d1b38a1198a.png"><img style="width: 106.50px" src="img/4d2e1a1141777b44.png"></p>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 144.50px" src="img/99891a2e3d27924f.png"></p>
 </td></tr>
 </table>
-<p>The Ed-Fi Alliance publishes the Ed-Fi data standard, a defined set of rules that allows educational data systems to connect, and technology that enables real world use of the data standard. This primarily happens through an operational data store (ODS) and accompanying API.</p>
+<p>The Ed-Fi Alliance is responsible for both the Ed-Fi data standard (a defined set of rules that allows disparate educational data systems to connect) as well as the technology that enables users to take advantage of that standard. This primarily happens through an operational data store (ODS) and accompanying application programming interface (API).</p>
 <p>You can read more about Ed-Fi here: <a href="https://www.ed-fi.org/" target="_blank">https://www.ed-fi.org/</a></p>
-<p>This tutorial will walk you through how to create a Ed-Fi sandbox environment in Google Cloud including the ODS and the API.</p>
-<aside class="warning"><p>Before you can move forward in this tutorial, you will need to request access to our Ed-Fi sandbox image in Google Cloud. Please complete the Google Form below.</p>
+<p>This tutorial will walk you through how to create an Ed-Fi v3.1 development environment in Google Cloud, including the ODS and the API. This environment has the <a href="https://techdocs.ed-fi.org/display/ODSAPI31/Using+the+Sandbox+Administration+Portal" target="_blank">Sandbox Administration Portal</a> deployed in it, allowing you to create and delete sandbox environments of the ODS.</p>
+<aside class="warning"><p>Before you can move forward in this tutorial, you will need to request access to our Ed-Fi dev image in Google Cloud. To do that, please complete the Google Form below.</p>
 <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdILnko_UZ-iuLNymH7dqnMi7MEiVkRSKQ2Br1RMfyGL-yIjA/viewform" target="_blank">https://docs.google.com/forms/d/e/1FAIpQLSdILnko_UZ-iuLNymH7dqnMi7MEiVkRSKQ2Br1RMfyGL-yIjA/viewform</a></p>
 </aside>
 
 
       </google-codelab-step>
     
+      <google-codelab-step label="DataViz Starter Pack" duration="0">
+        <table>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 125.50px" src="img/8141cc09c160d989.png"></p>
+</td></tr>
+</table>
+<p>This tutorial was created by the <a href="https://datavizstarterpack.org/" target="_blank">DataViz Starter Pack</a> team. We are a program that supports data analysts in education. Your school uses a student information system and countless edTech apps. We build the necessary infrastructure to bring that data together so it lives in one place. We maintain a data visualization library with all the essential reports so your school can hit the ground running, and we put you on a professional development track to help you learn the things needed to successfully build data visualizations and dashboards for your organization.</p>
+<p>We implement an Ed-Fi ODS for the districts we support. Utilizing <a href="https://airflow.apache.org/" target="_blank">Apache Airflow</a>, we bring together data from multiple, disparate sources into the Ed-Fi ODS via the provided API.</p>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Compute Engine VM" duration="0">
-        <p>We&#39;ve given you access to our Ed-Fi sandbox image and you&#39;re ready to build the virtual machine in your Google Cloud. Let&#39;s get started! Log into your Google Cloud and navigate to Compute Engine, or click below:</p>
+        <p>We&#39;ve given you access to our Ed-Fi development environment image, and you&#39;re ready to build the virtual machine in your Google Cloud. Let&#39;s get started! Log into your Google Cloud and navigate to Compute Engine, or click below:</p>
 <p><a href="https://console.cloud.google.com/compute/instances" target="_blank">https://console.cloud.google.com/compute/instances</a></p>
 <h3 is-upgraded>Activate Cloud Shell</h3>
 <table>
@@ -51,8 +62,12 @@
 </td></tr>
 </table>
 <p>Look for the Cloud Shell icon shown above in your Google Cloud and click it to activate a Cloud Shell connection. Paste in the command below to create the virtual machine.</p>
-<pre><code>gcloud compute instances create sandbox --image edfi-dev-311 --image-project public-resources-240800 --zone us-central1-c</code></pre>
+<pre><code>gcloud compute instances create development --image edfi-31-development --image-project public-resources-240800 --zone us-central1-c --machine-type n1-standard-4</code></pre>
 <p>It should take ~5 minutes for Google to create your new Compute Engine VM. You&#39;ll be able to see that the process has started by clicking on the <img style="width: 68.00px" src="img/46edb2358ee6182f.png"> button. When you see a green check mark next to your new VM, head to the next step in this tutorial.</p>
+<aside class="warning"><p>This image will create a Microsoft SQL Server 2017 Standard on Microsoft Windows 2019  machine with 4 vCPUs and 15 GB of memory. We estimate this to cost $700/month if run 24/7. New customers to Google Cloud receive a $300 credit to help them get started. Thanks to <a href="https://techdocs.ed-fi.org/pages/viewpage.action?pageId=58725877" target="_blank">Project Roadrunner</a>, PostgreSQL support is coming to Ed-Fi which will greatly reduce the costs to implement the technology stack.</p>
+<p><strong>Pricing details via the GCP pricing calculator:</strong></p>
+<p>https://cloud.google.com/products/calculator/#id=d4e312d7-58f2-4ccf-b61b-af55fa0f147a</p>
+</aside>
 
 
       </google-codelab-step>
@@ -64,12 +79,15 @@
 <h3 is-upgraded>Chrome RDP</h3>
 <p>Install the <a href="https://chrome.google.com/webstore/detail/chrome-rdp-for-google-clo/mpbbnannobiobpnfblimoapbephgifkm/" target="_blank">Chrome RDP for Google Cloud Platform extension</a>.</p>
 <p>Once installed, head back to your VM instances page in Google Cloud and click on <strong>RDP</strong>. A window should open asking you for your recently set username and password.</p>
+<aside class="special"><p><strong>Microsoft Remote Desktop</strong></p>
+<p>In addition to using Chrome RDP, you can also use the desktop client for Microsoft Remote Desktop. You will connect to the external IP address listed for the virtual machine.</p>
+</aside>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Explore the ODS" duration="0">
-        <p>Click on the Start Menu and launch Microsoft SQL Server Management under the Microsoft SQL Server Tools 17 folder. You&#39;ll see a few databases setup and ready to go. The database <code>EdFi_Ods_Sandbox_GapYwJToOmLFuxj20cgyf</code> is seeded with fake school data so you can get a good idea of what an Ed-Fi database looks like.</p>
+      <google-codelab-step label="Explore the Ed-Fi ODS" duration="0">
+        <p>Click on the Start Menu and launch Microsoft SQL Server Management under the Microsoft SQL Server Tools 18 folder. You&#39;ll see a few databases set up and ready to go. The database <code>EdFi_Ods_Sandbox_GapYwJToOmLFuxj20cgyf</code> is seeded with fake school data so you can get a good idea of what an Ed-Fi database looks like.</p>
 <table>
 <tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 261.50px" src="img/4f023d9406a5a191.png"></p>
 </td></tr>
@@ -79,20 +97,34 @@
       </google-codelab-step>
     
       <google-codelab-step label="Sandbox Administration" duration="0">
-        <p>Head to the Start Menu and launch Visual Studio 2015. Click on File, Recent Projects and Solutions, and launch the recently opened solutions file. Once loaded, click <strong>Start </strong>on the toolbar.</p>
-<p>It may take a few minutes for Visual Studio to launch the project. Once launched, open Google Chrome and head to http://localhost:38928/. After a few minutes, you&#39;ll see the Sandbox Administration portal. Click <strong>Login</strong> and login with:</p>
+        <h3 is-upgraded>Setting the SSL Certificate</h3>
+<p>Before we access the Sandbox Administration Portal, we need to set your SSL certificate. Click on the Start Menu and launch Internet Information Services (IIS) Manager under Windows Administrative Tools. Expand the DEVELOPMENT server under Connections to see the two sites configured in IIS.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 284.00px" src="img/d8985916e0f1704f.png"></p>
+</td></tr>
+</table>
+<p>Select AdminWeb and follow the steps below to select an SSL certificate</p>
+<ul>
+<li>Click <em>Bindings...</em></li>
+<li>Select type <em>HTTPS</em> and click <em>Edit...</em></li>
+<li>Select the SSL certificate <em>development</em> from the dropdown and click OK</li>
+<li>Click <em>Close</em></li>
+</ul>
+<p>Select <em>Default Web Site </em>and repeat the steps above.</p>
+<h3 is-upgraded>Logging into the Sandbox Administration Portal</h3>
+<p>Open Google Chrome and head to https://localhost:38928/. After a few minutes, you&#39;ll see the Sandbox Administration portal. Click <strong>Login</strong> and login with:</p>
 <p>Username: <a href="mailto:test@ed-fi.org" target="_blank">test@ed-fi.org</a></p>
 <p>Password: YFtou0HS7WfIO8pwDqvGQ</p>
 <p>You can read more about the Sandbox Administration Portal on the site below:</p>
 <p><a href="https://techdocs.ed-fi.org/display/ODSAPI31/Using+the+Sandbox+Administration+Portal" target="_blank">https://techdocs.ed-fi.org/display/ODSAPI31/Using+the+Sandbox+Administration+Portal</a></p>
-<aside class="warning"><p>You will want to change the password to you Sandbox Administration Portal. This can be done by stopping the Visual Studio project and editing the file AdminCredential in C:\Ed-Fi-ODS-Implementation\Application\EdFi.Ods.Admin.Web</p>
+<aside class="warning"><p>Before moving forward, you will want to change the password to your Sandbox Administration Portal. You can do this in the portal by clicking on your account name top-right, under <strong>Change Password</strong>.</p>
 </aside>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Conclusion" duration="0">
-        <p>That&#39;s it! You&#39;ve successfully deployed a development environment of Ed-Fi v3.1.1! We encourage you to explore the database schema, explore the API endpoints via <a href="https://api.ed-fi.org/" target="_blank">https://api.ed-fi.org/</a>, and create a few client scripts of your own to interact with your newly deployed API. We are even linking a sample Python <a href="https://bitbucket.org/snippets/landingzone/Be4Edn" target="_blank">script</a> to help you get started.</p>
+        <p>That&#39;s it -- you&#39;ve successfully deployed a development environment of Ed-Fi v3.1.1! We encourage you to explore the database schema, explore the API endpoints via <a href="https://api.ed-fi.org/" target="_blank">https://api.ed-fi.org/</a>, and create a few client scripts of your own to interact with your newly deployed API. We are even linking a sample Python <a href="https://bitbucket.org/snippets/landingzone/Be4Edn" target="_blank">script</a> to help you get started.</p>
 <p>Check out a few projects by InnovateEDU:</p>
 <p>Project Unicorn: <a href="https://www.projunicorn.org/" target="_blank">https://www.projunicorn.org/</a></p>
 <p>DataViz Starter Pack: <a href="https://www.datavizstarterpack.com/" target="_blank">https://www.datavizstarterpack.com/</a></p>
